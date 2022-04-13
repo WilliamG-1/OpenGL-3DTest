@@ -10,7 +10,9 @@ Window::Window(const char* Title, int width, int height)
 		std::cout << "Error, could not create window!" << std::endl;
 		glfwTerminate();
 	}
+	
 	glfwMakeContextCurrent(window);
+	init();
 }
 
 Window::~Window()
@@ -46,4 +48,4 @@ void Window::resize_Window()
 GLFWwindow* Window::getWindow() const
 {
 	return window;
-}
+} 
