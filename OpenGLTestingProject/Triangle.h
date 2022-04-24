@@ -21,7 +21,7 @@ private:
 	GLuint VAO;
 	GLuint VBO;	
 	Shader shader;
-	float vertices[9];
+	float vertices[18];
 		
 };
 

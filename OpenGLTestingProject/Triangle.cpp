@@ -3,14 +3,28 @@
 Triangle::Triangle()
 	:
 	shader("Shaders/Vertex.vert", "Shaders/Fragment.frag"), VBO(0), VAO(0)
+
 {
-	float vertices[9] =
-	{
-		// Positions
-		-0.5f,  0.0f, 0.0f, // Bottom Left
-		-0.5f,  0.5f, 0.0f,	// Top 
-		 0.5f,  0.0f, 0.0f	// Bottom Right
-	};
+	
+	vertices[0] = -0.5f;
+	vertices[1] = -0.5f;
+	vertices[2] =  0.0f;
+	vertices[3] = -0.5f;
+	vertices[4] =  0.5f;
+	vertices[5] =  0.0f;
+	vertices[6] =  0.5f;
+	vertices[7] =  0.0f;
+	vertices[8] =  0.0f;
+	
+	vertices[9] = 0.5f;
+	vertices[10] = 0.5f;
+	vertices[11] = 0.0f;
+	vertices[12] = 0.5f;
+	vertices[13] = -0.5f;
+	vertices[14] = 0.0f;
+	vertices[15] =- 0.5f;
+	vertices[16] = 0.0f;
+	vertices[17] = 0.0f;
 	init();
 	
 }
@@ -65,5 +79,6 @@ void Triangle::draw()
 {
 	shader.use();
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
