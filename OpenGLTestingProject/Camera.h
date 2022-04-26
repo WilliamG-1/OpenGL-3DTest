@@ -25,7 +25,6 @@ private:
 	// Axes of Camera (basis originating from camera position)
 	glm::vec3 cameraDirection; // Vector pointing from the origin to the camera
 
-
 	glm::vec3 cameraRight; // Vector ponting to the right of our camera
 	glm::vec3 cameraUp;	// Vector pointing on top of the camera
 	glm::vec3 cameraFront; // Vector pointing to the front of camera

@@ -98,10 +98,38 @@ void Game::processInput(GLFWwindow* window)
 
 void Game::composeFrame()
 {
+    std::vector<glm::vec3> positions =
+    {
+        glm::vec3(1.0f, 1.0f, -1.0f),
+        glm::vec3(2.0f, 2.0f, 4.0f),
+        glm::vec3(0.0f, 5.0f, -12.0f),
+        glm::vec3(0.0f, 2.0f, -4.0f),
+        glm::vec3(-3.0f, -3.0f, -3.0f),
+        glm::vec3(-5.0f, 4.0f, -8.0f)
+    };
+    
+    // Floor Code
+    for (int i = 0; i < 10; i++)
+    {
+        // Columns
+        for (int k = 0; k < 15; k++)
+        {
+            positions.push_back(glm::vec3(-5.0f + (float)k, -2.0f, 1.0f - (float)i));
+        }
+    }
+    // Wall
+    for (int w = 0; w < 15; w++)
+    {
+        for (int x = 0; x < 20; x++)
+        {
+            positions.push_back(glm::vec3(-7.0f + (float)x, -2.0f + (float)w, -9.0f));
+        }
+    }
+
     glEnable(GL_DEPTH_TEST);
     float vertices[1] = { 0.0f };
-    renderer.initCube(1, vertices, vertices);
-
+    renderer.initCube(456, positions);
+   
     // Compose the renderer shit
     renderer.compose();
 

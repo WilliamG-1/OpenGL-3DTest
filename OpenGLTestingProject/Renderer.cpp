@@ -135,7 +135,7 @@ void Renderer::initSquare(float x, float y, float width, float height)
 	
 }
 
-void Renderer::initCube(int count, float starting_vetices[], float widthHeightDepth[])
+void Renderer::initCube(int count, std::vector<glm::vec3> cubePositions)
 {
 	float vertices[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -181,7 +181,14 @@ void Renderer::initCube(int count, float starting_vetices[], float widthHeightDe
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 180, vertices, GL_STATIC_DRAW);
-
+	for (int i = 0; i < count; i++)
+	{
+		float angle = -20.0f;
+		glm::mat4 m(1.0f);
+		m = glm::translate(m, cubePositions[i]);
+		//m = glm::rotate(m, glm::radians(-10.0f + angle * i), glm::vec3(0.2f, 0.2f, 0.2f));
+		modelContainer.push_back(m);
+	}
 	mode = renderMode::CUBE;
 }
 
@@ -213,6 +220,7 @@ void Renderer::processSquares()
 
 void Renderer::compose()
 {
+	
 	// Do shit here before rendering	
 	processSquares();
 }
@@ -262,9 +270,9 @@ void Renderer::render(GLFWwindow* window)
 	// Update Stuff Here -----------------------------------------------------|
 	view = camera.getViewMatrix();
 
-	shader.setUniformMat4f("model", model);
+	
 	shader.setUniformMat4f("view", view);
-
+	//shader.setUniformMat4f("model", model);
 
 	camera.update(window);
 	//camera.rotateLeftRight((float)sin(glfwGetTime()));
@@ -281,7 +289,12 @@ void Renderer::render(GLFWwindow* window)
 		glDrawArrays(GL_TRIANGLES, 0, 6 * squareCount);
 		break;
 	case renderMode::CUBE:
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (const glm::mat4 model : modelContainer)
+		{
+			shader.setUniformMat4f("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+			
 		break;
 	}
 	

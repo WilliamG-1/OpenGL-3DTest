@@ -5,7 +5,7 @@
 #include "stb_image.h"
 #include "Shader.h"
 #include "Camera.h"
-
+#include <vector>
 // Input/Keys Enum
 enum class Input
 {
@@ -20,7 +20,7 @@ public:
 	void render(GLFWwindow* window);
     void initTriangles(int count, float starting_vertices[], float widthAndHeights[]);
     void initSquare(float x, float y, float width, float height);
-	void initCube(int count, float starting_vetices[], float widthHeightLength[]);
+	void initCube(int count, std::vector<glm::vec3> cubePositions);
     void loadTex(std::string filePath, bool alphaChannel);
 
     void processInput(Input key);
@@ -39,6 +39,8 @@ private:
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
+    std::vector<glm::mat4> modelContainer;
+    std::vector<glm::vec3> cubePositions;
 
     int renderShape; // 0 = Triangles, 1 = Square, 2 = Cube
 
