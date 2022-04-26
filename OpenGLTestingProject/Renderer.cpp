@@ -205,8 +205,7 @@ void Renderer::processSquares()
 
 void Renderer::compose()
 {
-	// Do shit here before rendering
-	
+	// Do shit here before rendering	
 	processSquares();
 }
 
@@ -214,16 +213,16 @@ void Renderer::processInput(Input key)
 {
 	// Forwards
 	if (key == Input::W)
-		camera.moveForwardsBackwards(0.1f);
+		camera.moveForwardsBackwards(1);
 	// Left
 	if (key == Input::A)
-		camera.moveLeftRight(0.01f);
+		camera.moveLeftRight(-1);
 	// Backwards
 	if (key == Input::S)
-		camera.moveForwardsBackwards(-0.1f);
+		camera.moveForwardsBackwards(-1);
 	// Right
 	if (key == Input::D)
-		camera.moveLeftRight(-0.01f);
+		camera.moveLeftRight(1);
 	// Down
 	if (key == Input::SHIFT)
 		camera.moveUpDown(0.01f);
@@ -241,7 +240,7 @@ void Renderer::processInput(Input key)
 		camera.rotateUpDown(-1.0f);
 }
 
-void Renderer::render()
+void Renderer::render(GLFWwindow* window)
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
@@ -251,6 +250,8 @@ void Renderer::render()
 	shader.setUniformMat4f("model", camera.getModelMatrix());
 	shader.setUniformMat4f("view", camera.getViewMatrix());
 
+
+	camera.update(window);
 	//camera.rotateLeftRight((float)sin(glfwGetTime()));
 	//camera.rotateUpDown((float)cos(glfwGetTime()));
 	// -----------------------------------------------------------------------|

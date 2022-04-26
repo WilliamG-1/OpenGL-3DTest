@@ -17,7 +17,7 @@ class Renderer
 public:
 	Renderer();
 	~Renderer();
-	void render();
+	void render(GLFWwindow* window);
     void initTriangles(int count, float starting_vertices[], float widthAndHeights[]);
     void initSquare(float x, float y, float width, float height);
 	void initCube(int count, float starting_vetices[], float widthHeightLength[]);

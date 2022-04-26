@@ -28,7 +28,7 @@ void Game::run()
         
         
         // Render stuff after clearing screen!
-        renderer.render();
+        renderer.render(window.getWindow());
 
         // Some Render Function Here
 
