@@ -3,6 +3,7 @@ Renderer::Renderer()
 	:
 	shader("Shaders/Vertex.vert", "Shaders/Fragment.frag"), triangleCount(0)
 {
+	
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -213,35 +214,39 @@ void Renderer::processInput(Input key)
 {
 	// Forwards
 	if (key == Input::W)
-		camera.moveForwardsBackwards(1);
+		camera.moveForwardsBackwards(1, deltaTime);
 	// Left
 	if (key == Input::A)
-		camera.moveLeftRight(-1);
+		camera.moveLeftRight(-1, deltaTime);
 	// Backwards
 	if (key == Input::S)
-		camera.moveForwardsBackwards(-1);
+		camera.moveForwardsBackwards(-1, deltaTime);
 	// Right
 	if (key == Input::D)
-		camera.moveLeftRight(1);
+		camera.moveLeftRight(1, deltaTime);
 	// Down
 	if (key == Input::SHIFT)
-		camera.moveUpDown(0.01f);
+		camera.moveUpDown(-1, deltaTime);
 	// Up
 	if (key == Input::SPACE)
-		camera.moveUpDown(-0.01f);
+		camera.moveUpDown(1, deltaTime);
 
 	if (key == Input::LEFT_KEY)
-		camera.rotateLeftRight(-1.0f);
+		camera.rotateLeftRight(-1.0f, deltaTime);
 	if (key == Input::RIGHT_KEY)
-		camera.rotateLeftRight(1.0f);
+		camera.rotateLeftRight(1.0f, deltaTime);
 	if (key == Input::DOWN_KEY)
-		camera.rotateUpDown(1.0f);
+		camera.rotateUpDown(1.0f, deltaTime);
 	if (key == Input::UP_KEY)
-		camera.rotateUpDown(-1.0f);
+		camera.rotateUpDown(-1.0f, deltaTime);
 }
 
 void Renderer::render(GLFWwindow* window)
 {
+	deltaTime = (currentTime - lastTime) * 10;
+	lastTime = currentTime;
+	currentTime = glfwGetTime();
+	std::cout << deltaTime << std::endl;
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 

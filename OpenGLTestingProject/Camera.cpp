@@ -10,7 +10,7 @@ Camera::Camera()
 
 	cameraDirection(glm::normalize(cameraPosition - cameraTarget)), // Vector pointing at the camera 
 	cameraRight(glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), cameraDirection))),
-	cameraUp(glm::cross(cameraDirection, cameraRight)),
+	cameraUp(glm::normalize(glm::cross(cameraDirection, cameraRight))),
 	cameraFront(glm::vec3(0.0f, 0.0f, -1.0f)),
 
 	// Initalize MVP matrices to Identitity Matrices
@@ -31,31 +31,30 @@ void Camera::processInput(char input)
 
 }
 
-void Camera::rotateLeftRight(float degrees)
+void Camera::rotateLeftRight(float degrees, float deltaTime)
 {
 	model = glm::rotate(model, glm::radians(degrees), glm::vec3(0.0, 0.0f, 0.2f));
 }
 
-void Camera::rotateUpDown(float degrees)
+void Camera::rotateUpDown(float degrees, float deltaTime)
 {
 	model = glm::rotate(model, glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
-void Camera::moveLeftRight(int direction)
+// Movement
+void Camera::moveLeftRight(int direction, float deltaTime)
 {
-	cameraPosition += glm::vec3((float)direction * cameraSpeed, 0.0f, 0.0f);
+	cameraPosition += (float)direction * cameraSpeed * deltaTime * cameraRight;
 }
 
-void Camera::moveUpDown(float deltaY)
+void Camera::moveUpDown(int direction, float deltaTime)
 {
-	view = glm::translate(view, glm::vec3(0.0f, deltaY, 0.0f));
+	cameraPosition += (float)direction * cameraSpeed * deltaTime * cameraUp;
 }
 
-void Camera::moveForwardsBackwards(int direction)
-{
-	
-	cameraPosition += direction * cameraSpeed * cameraFront;
-	//cameraPosition += 
+void Camera::moveForwardsBackwards(int direction, float deltaTime)
+{	
+	cameraPosition += (float)direction * cameraSpeed * deltaTime * cameraFront;
 }
 
 
@@ -67,7 +66,7 @@ void Camera::update(GLFWwindow* window)
 	//std::cout << "x Position: " << xPos << ". Y Position: " << yPos << std::endl;
 	//glfwSetCursorPos(window, screenWidth / 2, screenHeight / 2);
 	view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
-	std::printf("Camera x: %f, Camera y: %f, camera z: %f\n", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+	
 }
 
    // --------> Getters <--------- \\

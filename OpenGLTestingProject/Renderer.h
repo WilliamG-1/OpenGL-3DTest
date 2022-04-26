@@ -85,12 +85,19 @@ private:
 
     bool firstSquare = true;
     bool firstTriangle = true;
+
 	int triangleCount = 0;
     int squareCount = 0;
+    int cubeCount = 0;
+
     bool textureUse = false;
 
+    // Delta Time Stuff $*$*$**$*$*$*$*$
+    float deltaTime = 0.0f;
+    float lastTime = 0.0f;
+    float currentTime = glfwGetTime();
 
     void processSquares();
-   
+  
 };
 
