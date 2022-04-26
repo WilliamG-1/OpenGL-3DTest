@@ -1,7 +1,11 @@
 #include "Renderer.h"
+const int screenWidth = 720;
+const int screenHeight = 660;
+const float aspectRatio = screenWidth / screenHeight;
 Renderer::Renderer()
 	:
-	shader("Shaders/Vertex.vert", "Shaders/Fragment.frag"), triangleCount(0)
+	shader("Shaders/Vertex.vert", "Shaders/Fragment.frag"), triangleCount(0),
+	model(glm::mat4(1.0f)), view(glm::mat4(1.0f)), projection(glm::mat4(1.0f))
 {
 	
 	glGenBuffers(1, &VBO);
@@ -9,6 +13,9 @@ Renderer::Renderer()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	
+	model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+	view = camera.getViewMatrix();
 }
 
 Renderer::~Renderer()
@@ -196,9 +203,9 @@ void Renderer::processSquares()
 	shader.use();
 
 	shader.setUniformTex2f("texture1");
-	shader.setUniformMat4f("model", camera.getModelMatrix());
-	shader.setUniformMat4f("view", camera.getViewMatrix());
-	shader.setUniformMat4f("projection", camera.getProjectionMatrix());
+	shader.setUniformMat4f("model", model);
+	shader.setUniformMat4f("view", view);
+	shader.setUniformMat4f("projection", projection);
 
 
 
@@ -214,31 +221,31 @@ void Renderer::processInput(Input key)
 {
 	// Forwards
 	if (key == Input::W)
-		camera.moveForwardsBackwards(1, deltaTime);
+		camera.processInput(glm::vec3(0.0f, 0.0f, 1.0f), 1, deltaTime);
 	// Left
 	if (key == Input::A)
-		camera.moveLeftRight(-1, deltaTime);
+		camera.processInput(glm::vec3(1.0f, 0.0f, 0.0f), -1, deltaTime);
 	// Backwards
 	if (key == Input::S)
-		camera.moveForwardsBackwards(-1, deltaTime);
+		camera.processInput(glm::vec3(0.0f, 0.0f, 1.0f), -1, deltaTime);
 	// Right
 	if (key == Input::D)
-		camera.moveLeftRight(1, deltaTime);
+		camera.processInput(glm::vec3(1.0f, 0.0f, 0.0f), 1, deltaTime);
 	// Down
 	if (key == Input::SHIFT)
-		camera.moveUpDown(-1, deltaTime);
+		camera.processInput(glm::vec3(0.0f, 1.0f, 0.0f), -1, deltaTime);
 	// Up
 	if (key == Input::SPACE)
-		camera.moveUpDown(1, deltaTime);
+		camera.processInput(glm::vec3(0.0f, 1.0f, 0.0f), 1, deltaTime);
 
 	if (key == Input::LEFT_KEY)
-		camera.rotateLeftRight(-1.0f, deltaTime);
+		model = glm::rotate(model, glm::radians(-1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	if (key == Input::RIGHT_KEY)
-		camera.rotateLeftRight(1.0f, deltaTime);
+		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	if (key == Input::DOWN_KEY)
-		camera.rotateUpDown(1.0f, deltaTime);
+		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	if (key == Input::UP_KEY)
-		camera.rotateUpDown(-1.0f, deltaTime);
+		model = glm::rotate(model, glm::radians(-1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
 void Renderer::render(GLFWwindow* window)
@@ -246,14 +253,17 @@ void Renderer::render(GLFWwindow* window)
 	deltaTime = (currentTime - lastTime) * 10;
 	lastTime = currentTime;
 	currentTime = glfwGetTime();
-	std::cout << deltaTime << std::endl;
+
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 
 	shader.use();
 	// Update Stuff Here -----------------------------------------------------|
-	shader.setUniformMat4f("model", camera.getModelMatrix());
-	shader.setUniformMat4f("view", camera.getViewMatrix());
+	view = camera.getViewMatrix();
+
+	shader.setUniformMat4f("model", model);
+	shader.setUniformMat4f("view", view);
 
 
 	camera.update(window);

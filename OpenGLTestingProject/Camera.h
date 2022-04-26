@@ -11,23 +11,13 @@ class Camera
 public:
 	Camera();
 
-	void processInput(char input);
-
-	void rotateLeftRight(float degrees, float dTime);
-	void rotateUpDown(float degrees, float dTime);
-
-	void moveLeftRight(int direction, float dTime);
-	void moveUpDown(int direction, float dTime);
-	void moveForwardsBackwards(int direction, float dTime);
+	void processInput(glm::vec3 axis, int direction, float deltaTime);
 	void update(GLFWwindow* window);
+
 	// Getters
-	glm::mat4 getModelMatrix() const;
 	glm::mat4 getViewMatrix() const;
-	glm::mat4 getProjectionMatrix() const;
 private:
-	glm::mat4 model;
-	glm::mat4 view;
-	glm::mat4 projection;
+	
 	// Position Vectors
 	glm::vec3 cameraPosition;
 	glm::vec3 cameraTarget;
