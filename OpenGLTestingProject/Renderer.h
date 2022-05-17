@@ -9,7 +9,7 @@
 // Input/Keys Enum
 enum class Input
 {
-    DEFAULT = 0, W, A, S, D, CTRL, SPACE, SHIFT, LEFT_KEY, RIGHT_KEY, UP_KEY, DOWN_KEY
+    DEFAULT = 0, W, A, S, D, CTRL, SPACE, SHIFT, LEFT_KEY, RIGHT_KEY, UP_KEY, DOWN_KEY, T, U, I
 };
 
 class Renderer

@@ -92,7 +92,18 @@ void Game::processInput(GLFWwindow* window)
     {
         key = Input::DOWN_KEY;
     }
-
+    if (glfwGetKey(window, GLFW_KEY_T) == (GLFW_PRESS))
+    {
+        key = Input::T;
+    }
+    if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+    {
+        key = Input::U;
+    }
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        key = Input::I;
+    }
     renderer.processInput(key);
 }
 
@@ -118,7 +129,7 @@ void Game::composeFrame()
         }
     }
     // Wall
-    for (int w = 0; w < 15; w++)
+    for (int w = 0; w < 30; w++)
     {
         for (int x = 0; x < 20; x++)
         {
@@ -128,7 +139,7 @@ void Game::composeFrame()
 
     glEnable(GL_DEPTH_TEST);
     float vertices[1] = { 0.0f };
-    renderer.initCube(456, positions);
+    renderer.initCube(756, positions);
    
     // Compose the renderer shit
     renderer.compose();

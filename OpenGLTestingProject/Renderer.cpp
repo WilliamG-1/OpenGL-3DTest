@@ -247,13 +247,25 @@ void Renderer::processInput(Input key)
 		camera.processInput(glm::vec3(0.0f, 1.0f, 0.0f), 1, deltaTime);
 
 	if (key == Input::LEFT_KEY)
-		model = glm::rotate(model, glm::radians(-1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		camera.changeView(-1, 0.0f, 0.0f);
 	if (key == Input::RIGHT_KEY)
-		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		camera.changeView(1, 0.0f, 0.0f);
 	if (key == Input::DOWN_KEY)
-		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		camera.changeView(0.0f, -1, 0.0f);
 	if (key == Input::UP_KEY)
-		model = glm::rotate(model, glm::radians(-1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		camera.changeView(0.0f, 1, 0.0f);
+	if (key == Input::U)
+		camera.changeView(0, 0, -1);
+	if (key == Input::I)
+		camera.changeView(0, 0, 1);
+	if (key == Input::T)
+	{
+		for (glm::mat4& mod : modelContainer)
+		{
+			mod = glm::rotate(mod, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+	
 }
 
 void Renderer::render(GLFWwindow* window)
