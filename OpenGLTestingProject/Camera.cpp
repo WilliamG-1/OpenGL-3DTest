@@ -87,6 +87,7 @@ void Camera::changeView(float dx, float dy, float dz)
 void Camera::update(GLFWwindow* window)
 {
 	glfwGetCursorPos(window, &xPos, &yPos);
+	cameraPosition += cameraFront * 0.04f;
 	
 }
 
