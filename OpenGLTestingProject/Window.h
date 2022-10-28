@@ -12,7 +12,6 @@ public:
 	// Getters
 	GLFWwindow* getWindow() const;
 	
-	void resize_Window();
 private:
 	GLFWwindow* window;
 	int screenWidth;

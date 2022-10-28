@@ -12,6 +12,10 @@ Window::Window(const char* Title, int width, int height)
 	}
 	
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(this->window, [](GLFWwindow* window, int width, int height)
+		{
+			glViewport(0.0f, 0.0f, width, height);
+		});
 	init();
 }
 
@@ -34,15 +38,6 @@ void Window::init()
 	glViewport(0, 0, screenWidth, screenHeight);
 	
 	
-}
-void framebuffer_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
-
-void Window::resize_Window()
-{
-	glfwSetFramebufferSizeCallback(window, framebuffer_callback);
 }
 
 GLFWwindow* Window::getWindow() const
