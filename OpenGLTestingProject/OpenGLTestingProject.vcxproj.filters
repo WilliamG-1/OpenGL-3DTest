@@ -90,5 +90,8 @@
     <Image Include="Assets\DiamondOre.png">
       <Filter>Resource Files\Assets</Filter>
     </Image>
+    <Image Include="Screenshots\Screenshot1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
